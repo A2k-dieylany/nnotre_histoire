@@ -28,6 +28,9 @@ create policy "authenticated write timeline" on public.timeline_events
 create policy "authenticated update timeline" on public.timeline_events
   for update to authenticated using (true) with check (true);
 
+create policy "authenticated delete timeline" on public.timeline_events
+  for delete to authenticated using (true);
+
 -- ── Contenu à déverrouillage programmé ────────────────────────────────────────
 -- Primitive réutilisée par : photo mystère, lettres du futur, coffre-fort.
 -- Le check de date est fait ICI, côté serveur (policy RLS), pas côté client :
@@ -52,6 +55,12 @@ create policy "authenticated read unlocked content" on public.unlockable_content
 create policy "authenticated write unlockable content" on public.unlockable_content
   for insert to authenticated with check (true);
 
+create policy "authenticated update unlockable content" on public.unlockable_content
+  for update to authenticated using (true) with check (true);
+
+create policy "authenticated delete unlockable content" on public.unlockable_content
+  for delete to authenticated using (true);
+
 -- ── Stockage (photos, audio, vidéo) ──────────────────────────────────────────
 -- Bucket privé : pas d'URL publique, accès uniquement via une session authentifiée.
 insert into storage.buckets (id, name, public)
@@ -63,3 +72,6 @@ create policy "authenticated read memories" on storage.objects
 
 create policy "authenticated upload memories" on storage.objects
   for insert to authenticated with check (bucket_id = 'memories');
+
+create policy "authenticated delete memories" on storage.objects
+  for delete to authenticated using (bucket_id = 'memories');

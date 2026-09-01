@@ -1,5 +1,6 @@
 import { createClient } from "@/lib/supabase/server";
 import { AddMemoryForm } from "./add-memory-form";
+import { TimelineItem } from "./timeline-item";
 
 const SIGNED_URL_TTL_SECONDS = 60 * 60; // 1h — régénérée à chaque chargement de page, pas besoin de plus long
 
@@ -43,30 +44,7 @@ export async function Timeline() {
       {!error && eventsWithCoverUrl.length > 0 && (
         <ol className="flex w-full max-w-lg flex-col gap-8 border-l border-white/15 pl-6">
           {eventsWithCoverUrl.map((event) => (
-            <li key={event.id} className="relative">
-              <span className="absolute -left-[27px] top-1.5 h-2 w-2 rounded-full bg-white/60" />
-              <time className="text-xs uppercase tracking-widest text-white/40">
-                {new Date(event.event_date).toLocaleDateString("fr-FR", {
-                  year: "numeric",
-                  month: "long",
-                  day: "numeric",
-                })}
-              </time>
-              <h3 className="mt-1 font-serif text-lg italic">{event.title}</h3>
-              {event.coverSignedUrl && (
-                // <img> volontairement, pas next/image : l'URL signée expire et change
-                // à chaque chargement, l'optimiseur d'image n'apporte rien ici.
-                <img
-                  src={event.coverSignedUrl}
-                  alt=""
-                  loading="lazy"
-                  className="mt-3 max-h-72 w-full rounded-md object-cover"
-                />
-              )}
-              {event.body && (
-                <p className="mt-1 text-sm text-white/70">{event.body}</p>
-              )}
-            </li>
+            <TimelineItem key={event.id} event={event} />
           ))}
         </ol>
       )}

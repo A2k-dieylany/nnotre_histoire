@@ -2,6 +2,7 @@
 
 import { revalidatePath } from "next/cache";
 import { createClient } from "@/lib/supabase/server";
+import { uploadImage, deleteImage } from "@/lib/upload-image";
 
 export type AddEventState = { error: string } | null;
 
@@ -37,27 +38,11 @@ export async function addTimelineEvent(
   let coverPath: string | null = null;
 
   if (cover instanceof File && cover.size > 0) {
-    // Vérif MIME serveur minimale : suffisant pour un upload à deux utilisateurs
-    // authentifiés (pas un formulaire public), pas une inspection des octets magiques.
-    if (!cover.type.startsWith("image/")) {
-      return { error: "Le fichier doit être une image." };
+    const uploaded = await uploadImage(supabase, cover, "timeline");
+    if (!uploaded.ok) {
+      return { error: uploaded.error };
     }
-    if (cover.size > 8 * 1024 * 1024) {
-      return { error: "L'image est trop lourde (8 Mo max)." };
-    }
-
-    const extension = cover.name.split(".").pop()?.toLowerCase() || "jpg";
-    // Nom regénéré, jamais le nom d'origine : évite les collisions et les noms de fichier hostiles.
-    const path = `timeline/${crypto.randomUUID()}.${extension}`;
-
-    const { error: uploadError } = await supabase.storage
-      .from("memories")
-      .upload(path, cover, { contentType: cover.type });
-
-    if (uploadError) {
-      return { error: "L'envoi de la photo a échoué. Réessaie." };
-    }
-    coverPath = path;
+    coverPath = uploaded.path;
   }
 
   const { error } = await supabase.from("timeline_events").insert({
@@ -70,6 +55,105 @@ export async function addTimelineEvent(
   if (error) {
     return { error: "L'enregistrement a échoué. Réessaie." };
   }
+
+  revalidatePath("/");
+  return null;
+}
+
+export async function updateTimelineEvent(
+  _prevState: AddEventState,
+  formData: FormData,
+): Promise<AddEventState> {
+  const supabase = await createClient();
+
+  const { data } = await supabase.auth.getClaims();
+  if (!data?.claims) {
+    return { error: "Session expirée, reconnecte-toi." };
+  }
+
+  const id = formData.get("id");
+  const title = formData.get("title");
+  const body = formData.get("body");
+  const eventDate = formData.get("event_date");
+  const cover = formData.get("cover");
+  const removeCover = formData.get("remove_cover") === "on";
+
+  if (typeof id !== "string" || !id) {
+    return { error: "Souvenir introuvable." };
+  }
+  if (typeof title !== "string" || !title.trim()) {
+    return { error: "Le titre est obligatoire." };
+  }
+  if (typeof eventDate !== "string" || !eventDate) {
+    return { error: "La date est obligatoire." };
+  }
+
+  const { data: existing } = await supabase
+    .from("timeline_events")
+    .select("cover_image_url")
+    .eq("id", id)
+    .single();
+
+  let coverPath: string | null = existing?.cover_image_url ?? null;
+
+  if (cover instanceof File && cover.size > 0) {
+    const uploaded = await uploadImage(supabase, cover, "timeline");
+    if (!uploaded.ok) {
+      return { error: uploaded.error };
+    }
+    await deleteImage(supabase, coverPath);
+    coverPath = uploaded.path;
+  } else if (removeCover) {
+    await deleteImage(supabase, coverPath);
+    coverPath = null;
+  }
+
+  const { error } = await supabase
+    .from("timeline_events")
+    .update({
+      title: title.trim(),
+      body: typeof body === "string" ? body.trim() : "",
+      event_date: eventDate,
+      cover_image_url: coverPath,
+    })
+    .eq("id", id);
+
+  if (error) {
+    return { error: "La modification a échoué. Réessaie." };
+  }
+
+  revalidatePath("/");
+  return null;
+}
+
+export async function deleteTimelineEvent(id: string): Promise<{ error: string } | null> {
+  const supabase = await createClient();
+
+  const { data } = await supabase.auth.getClaims();
+  if (!data?.claims) {
+    return { error: "Session expirée, reconnecte-toi." };
+  }
+
+  const { data: existing } = await supabase
+    .from("timeline_events")
+    .select("cover_image_url")
+    .eq("id", id)
+    .single();
+
+  // .select() après delete renvoie les lignes effectivement supprimées : si la
+  // RLS bloque silencieusement (policy manquante), delete() ne renvoie pas
+  // d'erreur mais affecte 0 ligne — sans ce .select(), l'échec passerait inaperçu.
+  const { data: deleted, error } = await supabase
+    .from("timeline_events")
+    .delete()
+    .eq("id", id)
+    .select("id");
+
+  if (error || !deleted || deleted.length === 0) {
+    return { error: "La suppression a échoué (droits insuffisants ?)." };
+  }
+
+  await deleteImage(supabase, existing?.cover_image_url ?? null);
 
   revalidatePath("/");
   return null;

@@ -1,5 +1,6 @@
 import { createClient } from "@/lib/supabase/server";
 import { AddSurpriseForm } from "./add-surprise-form";
+import { UnlockableItem } from "./unlockable-item";
 
 const SIGNED_URL_TTL_SECONDS = 60 * 60;
 
@@ -32,19 +33,7 @@ export async function UnlockedMemories() {
       {itemsWithUrl.length > 0 && (
         <div className="flex w-full max-w-lg flex-col gap-8">
           {itemsWithUrl.map((item) => (
-            <div key={item.id} className="border-t border-white/10 pt-6 first:border-none first:pt-0">
-              <h3 className="font-serif text-lg italic">{item.title}</h3>
-              {item.signedUrl && (
-                // eslint-disable-next-line @next/next/no-img-element -- URL signée éphémère, next/image n'apporte rien ici
-                <img
-                  src={item.signedUrl}
-                  alt=""
-                  loading="lazy"
-                  className="mt-3 max-h-72 w-full rounded-md object-cover"
-                />
-              )}
-              {item.body && <p className="mt-2 text-sm text-white/70">{item.body}</p>}
-            </div>
+            <UnlockableItem key={item.id} item={item} />
           ))}
         </div>
       )}
