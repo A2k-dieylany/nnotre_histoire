@@ -56,7 +56,7 @@ export function OpeningSequence({
           onClick={handleEnter}
           className="animate-pulse font-serif text-lg italic text-white/70 transition hover:text-white"
         >
-          Descends… j&apos;ai quelque chose à te montrer.
+          Touche l&apos;écran pour commencer.
         </button>
       )}
 
@@ -88,9 +88,15 @@ export function OpeningSequence({
                 Et cette histoire… c&apos;est la nôtre, {partnerFirstName}.
               </p>
               <LiveCounter startDate={startDate} />
-              <span className="mt-8 animate-bounce text-2xl text-white/40" aria-hidden>
-                ↓
-              </span>
+              <div className="mt-8 flex flex-col items-center gap-2">
+                <p className="text-sm italic text-white/50">
+                  Descends… j&apos;ai quelque chose à te montrer.
+                </p>
+                {/* Brief : "animation de respiration (pulse doux)" — pas un rebond */}
+                <span className="animate-pulse text-2xl text-white/40" aria-hidden>
+                  ↓
+                </span>
+              </div>
             </div>
           )}
         </div>
