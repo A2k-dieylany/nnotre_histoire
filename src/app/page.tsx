@@ -1,6 +1,12 @@
 import { redirect } from "next/navigation";
 import { createClient } from "@/lib/supabase/server";
 import { signOut } from "./actions";
+import { OpeningSequence } from "@/components/opening-sequence";
+import { Timeline } from "@/components/timeline";
+import { TheLetter } from "@/components/the-letter";
+import { EasterEggs } from "@/components/easter-eggs";
+import { UnlockedMemories } from "@/components/unlocked-memories";
+import { coupleConfig } from "@/lib/couple-config";
 
 export default async function Home() {
   // Vérifié ici aussi, pas seulement dans proxy.ts : un Server Component est atteignable
@@ -13,20 +19,33 @@ export default async function Home() {
   }
 
   return (
-    <main className="flex min-h-screen flex-col items-center justify-center gap-6 bg-black text-center text-white">
-      <p className="font-serif text-2xl italic">Bienvenue.</p>
-      <p className="max-w-sm text-sm text-white/60">
-        La suite (compteur, timeline, la lettre) arrive ici. L&apos;authentification
-        est fonctionnelle de bout en bout.
-      </p>
-      <form action={signOut}>
+    <div className="relative">
+      <OpeningSequence
+        startDate={coupleConfig.startDate}
+        partnerFirstName={coupleConfig.partnerFirstName}
+        songUrl={coupleConfig.songUrl ?? undefined}
+      />
+      <Timeline />
+      <TheLetter
+        body={coupleConfig.letterBody}
+        closing={coupleConfig.letterClosing}
+        authorFirstName={coupleConfig.authorFirstName}
+        signatureImageUrl={coupleConfig.signatureImageUrl}
+      />
+      <UnlockedMemories />
+      <EasterEggs
+        startDate={coupleConfig.startDate}
+        secretCodeMessage={coupleConfig.secretCodeMessage}
+        midnightMessage={coupleConfig.midnightMessage}
+      />
+      <form action={signOut} className="fixed right-4 top-4 z-10">
         <button
           type="submit"
-          className="rounded-md border border-white/20 px-4 py-2 text-xs tracking-wide text-white/70 transition hover:bg-white/10"
+          className="rounded-md border border-white/20 px-3 py-1.5 text-xs tracking-wide text-white/50 transition hover:bg-white/10 hover:text-white/80"
         >
           Se déconnecter
         </button>
       </form>
-    </main>
+    </div>
   );
 }

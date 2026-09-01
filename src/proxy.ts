@@ -50,7 +50,10 @@ export async function proxy(request: NextRequest) {
 
 export const config = {
   matcher: [
-    // Exclut les assets statiques et l'optimisation d'images pour ne pas casser leur chargement.
-    "/((?!_next/static|_next/image|favicon.ico|.*\\.(?:svg|png|jpg|jpeg|webp|avif|ico)$).*)",
+    // Exclut les assets statiques, l'optimisation d'images, et les routes d'icône/manifest
+    // générées par Next (icon, apple-icon, manifest.webmanifest) — elles ne sont pas
+    // sensibles, et le navigateur/OS peut les demander sans cookie de session
+    // (ex: onglet du navigateur sur /login, installation "Ajouter à l'écran d'accueil").
+    "/((?!_next/static|_next/image|favicon.ico|icon$|apple-icon$|manifest.webmanifest|.*\\.(?:svg|png|jpg|jpeg|webp|avif|ico)$).*)",
   ],
 };
