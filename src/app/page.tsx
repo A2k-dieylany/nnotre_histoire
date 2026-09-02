@@ -5,6 +5,7 @@ import { OpeningSequence } from "@/components/opening-sequence";
 import { Dashboard } from "@/components/dashboard";
 import { PostitsWall } from "@/components/postits-wall";
 import { RandomMessageSection } from "@/components/random-message-section";
+import { BucketList } from "@/components/bucket-list";
 import { Timeline } from "@/components/timeline";
 import { TheLetter } from "@/components/the-letter";
 import { EasterEggs } from "@/components/easter-eggs";
@@ -31,6 +32,7 @@ export default async function Home() {
       <Dashboard />
       <PostitsWall />
       <RandomMessageSection />
+      <BucketList />
       <Timeline />
       <TheLetter
         body={coupleConfig.letterBody}
