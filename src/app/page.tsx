@@ -2,6 +2,7 @@ import { redirect } from "next/navigation";
 import { createClient } from "@/lib/supabase/server";
 import { signOut } from "./actions";
 import { OpeningSequence } from "@/components/opening-sequence";
+import { Dashboard } from "@/components/dashboard";
 import { Timeline } from "@/components/timeline";
 import { TheLetter } from "@/components/the-letter";
 import { EasterEggs } from "@/components/easter-eggs";
@@ -25,6 +26,7 @@ export default async function Home() {
         partnerFirstName={coupleConfig.partnerFirstName}
         songUrl={coupleConfig.songUrl ?? undefined}
       />
+      <Dashboard />
       <Timeline />
       <TheLetter
         body={coupleConfig.letterBody}

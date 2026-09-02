@@ -124,4 +124,22 @@ export const coupleConfig = {
 
   // Easter egg EE.4 : message affiché si elle visite le site entre minuit et 1h.
   midnightMessage: "Tu ne dors pas ? Moi non plus. Je pense à toi.",
+
+  // Dashboard (3A.4) : une citation différente chaque jour (déduite de la date,
+  // pas aléatoire à chaque rechargement). Génériques pour l'instant — remplace
+  // par des phrases à vous si tu préfères, dans l'ordre que tu veux.
+  dailyQuotes: [
+    "Le plus beau jour, c'est celui où on choisit encore la même personne.",
+    "Une petite attention aujourd'hui vaut mieux qu'une grande promesse demain.",
+    "On ne construit pas une histoire en un jour — on la construit chaque jour.",
+    "Le bonheur, c'est souvent juste être deux à regarder dans la même direction.",
+    "Rien n'est parfait, mais tout devient plus léger à deux.",
+  ],
+
+  // Compte à rebours (3A.5) — laisse `date` à null pour masquer cette section
+  // tant que tu n'as pas de prochain événement à annoncer.
+  nextEvent: {
+    label: "PLACEHOLDER — prochain événement",
+    date: null as string | null,
+  },
 } as const;
