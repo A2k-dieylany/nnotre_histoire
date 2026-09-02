@@ -1,12 +1,17 @@
 "use client";
 
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { computeElapsed } from "@/lib/elapsed";
 import { Typewriter } from "./typewriter";
 import { Starfield } from "./starfield";
 import { LiveCounter } from "./live-counter";
 
 type Stage = "gesture" | "line1" | "line2" | "done";
+
+// Déjà vue sur cet appareil : on saute le tap + l'écriture progressive, elle
+// n'a pas à retraverser toute la scène d'ouverture à chaque visite pour
+// atteindre "Notre quotidien" juste en dessous. Même logique que la lettre.
+const OPENING_SEEN_KEY = "notre-histoire:opening-seen";
 
 function pluralize(n: number, singular: string, plural = `${singular}s`) {
   return n === 1 ? singular : plural;
@@ -31,6 +36,28 @@ export function OpeningSequence({
 
   const line1 = `Il y a ${elapsed.years} ${pluralize(elapsed.years, "an")}, ${elapsed.months} ${pluralize(elapsed.months, "mois", "mois")} et ${elapsed.days} ${pluralize(elapsed.days, "jour")}…`;
   const line2 = "notre histoire a commencé.";
+
+  useEffect(() => {
+    let alreadySeen = false;
+    try {
+      alreadySeen = localStorage.getItem(OPENING_SEEN_KEY) === "1";
+    } catch {
+      // Navigation privée ou stockage bloqué : on retombe sur la séquence complète.
+    }
+    if (alreadySeen) {
+      // eslint-disable-next-line react-hooks/set-state-in-effect -- lu une fois au montage depuis un état navigateur, pas dérivable du rendu serveur
+      setStage("done");
+    }
+  }, []);
+
+  useEffect(() => {
+    if (stage !== "done") return;
+    try {
+      localStorage.setItem(OPENING_SEEN_KEY, "1");
+    } catch {
+      // Stockage indisponible : la séquence se rejouera la prochaine fois, tant pis.
+    }
+  }, [stage]);
 
   function handleEnter() {
     // Le tap est le geste utilisateur requis par les navigateurs pour autoriser
