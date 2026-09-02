@@ -9,11 +9,19 @@ export function AddCycleEntryForm() {
   return (
     <form action={action} className="flex w-full max-w-xs flex-col gap-2">
       <label className="text-xs text-white/50">
-        Nouveau début de cycle
+        Début des règles
         <input
           type="date"
           name="start_date"
           required
+          className="mt-1 block w-full rounded-md border border-white/20 bg-transparent px-3 py-2 text-sm text-white [color-scheme:dark] focus:border-white/50 focus:outline-none"
+        />
+      </label>
+      <label className="text-xs text-white/50">
+        Fin (optionnel, tu peux l&apos;ajouter plus tard)
+        <input
+          type="date"
+          name="end_date"
           className="mt-1 block w-full rounded-md border border-white/20 bg-transparent px-3 py-2 text-sm text-white [color-scheme:dark] focus:border-white/50 focus:outline-none"
         />
       </label>

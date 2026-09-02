@@ -26,12 +26,19 @@ export async function addCycleEntry(
   }
 
   const startDate = formData.get("start_date");
+  const endDate = formData.get("end_date");
   if (typeof startDate !== "string" || !startDate) {
-    return { error: "La date est obligatoire." };
+    return { error: "La date de début est obligatoire." };
+  }
+  if (typeof endDate === "string" && endDate && endDate < startDate) {
+    return { error: "La date de fin ne peut pas précéder la date de début." };
   }
 
   const supabase = await createClient();
-  const { error } = await supabase.from("cycle_entries").insert({ start_date: startDate });
+  const { error } = await supabase.from("cycle_entries").insert({
+    start_date: startDate,
+    end_date: typeof endDate === "string" && endDate ? endDate : null,
+  });
 
   if (error) {
     return { error: "L'enregistrement a échoué. Réessaie." };
@@ -50,6 +57,66 @@ export async function deleteCycleEntry(id: string): Promise<{ error: string } | 
   const supabase = await createClient();
   const { data: deleted, error } = await supabase
     .from("cycle_entries")
+    .delete()
+    .eq("id", id)
+    .select("id");
+
+  if (error || !deleted || deleted.length === 0) {
+    return { error: "La suppression a échoué." };
+  }
+
+  revalidatePath("/");
+  return null;
+}
+
+export async function addWellbeingEntry(
+  _prevState: CycleState,
+  formData: FormData,
+): Promise<CycleState> {
+  const profile = await requirePartner();
+  if (!profile) {
+    return { error: "Cette section est réservée à ton propre suivi." };
+  }
+
+  const entryDate = formData.get("entry_date");
+  const mood = formData.get("mood");
+  const symptoms = formData.get("symptoms");
+  const note = formData.get("note");
+
+  if (typeof entryDate !== "string" || !entryDate) {
+    return { error: "La date est obligatoire." };
+  }
+
+  const supabase = await createClient();
+  // upsert sur entry_date (contrainte unique) : une seule entrée par jour,
+  // la ré-enregistrer le même jour met simplement à jour la précédente.
+  const { error } = await supabase.from("wellbeing_entries").upsert(
+    {
+      entry_date: entryDate,
+      mood: typeof mood === "string" && mood ? mood : null,
+      symptoms: typeof symptoms === "string" && symptoms.trim() ? symptoms.trim() : null,
+      note: typeof note === "string" && note.trim() ? note.trim() : null,
+    },
+    { onConflict: "entry_date" },
+  );
+
+  if (error) {
+    return { error: "L'enregistrement a échoué. Réessaie." };
+  }
+
+  revalidatePath("/");
+  return null;
+}
+
+export async function deleteWellbeingEntry(id: string): Promise<{ error: string } | null> {
+  const profile = await requirePartner();
+  if (!profile) {
+    return { error: "Non autorisé." };
+  }
+
+  const supabase = await createClient();
+  const { data: deleted, error } = await supabase
+    .from("wellbeing_entries")
     .delete()
     .eq("id", id)
     .select("id");
