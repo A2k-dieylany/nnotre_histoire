@@ -116,9 +116,9 @@ export const coupleConfig = {
   // Dépose une image dans /public/signature.png puis remplace null par "/signature.png".
   signatureImageUrl: null as string | null,
 
-  // Easter egg EE.1 : elle tape votre date de rencontre (chiffres uniquement,
-  // n'importe où sur le site) → ce message apparaît. Code déduit de `startDate`
-  // (format JJMMAAAA) — se met à jour tout seul si tu corriges la date.
+  // Easter egg EE.1 : elle tape 08062026 (chiffres uniquement, n'importe où sur
+  // le site) → ce message apparaît. Code déduit de `restartDate` ci-dessus, pas
+  // de `startDate` — c'est la date des retrouvailles qui sert de code, par choix.
   secretCodeMessage: "[Écris ici le message qui apparaît quand elle trouve le code secret.]",
 
   // Easter egg EE.4 : message affiché si elle visite le site entre minuit et 1h.

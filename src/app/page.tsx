@@ -34,7 +34,7 @@ export default async function Home() {
       />
       <UnlockedMemories />
       <EasterEggs
-        startDate={coupleConfig.startDate}
+        secretCodeDate={coupleConfig.restartDate}
         secretCodeMessage={coupleConfig.secretCodeMessage}
         midnightMessage={coupleConfig.midnightMessage}
       />

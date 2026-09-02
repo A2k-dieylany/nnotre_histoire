@@ -9,11 +9,11 @@ function dateToCode(isoDate: string) {
 }
 
 export function EasterEggs({
-  startDate,
+  secretCodeDate,
   secretCodeMessage,
   midnightMessage,
 }: {
-  startDate: string;
+  secretCodeDate: string;
   secretCodeMessage: string;
   midnightMessage: string;
 }) {
@@ -33,7 +33,7 @@ export function EasterEggs({
 
   // EE.1 — tape le code n'importe où sur le site (hors champ de saisie).
   useEffect(() => {
-    const code = dateToCode(startDate);
+    const code = dateToCode(secretCodeDate);
     let buffer = "";
 
     function handleKeydown(e: KeyboardEvent) {
@@ -53,7 +53,7 @@ export function EasterEggs({
 
     window.addEventListener("keydown", handleKeydown);
     return () => window.removeEventListener("keydown", handleKeydown);
-  }, [startDate, secretCodeMessage]);
+  }, [secretCodeDate, secretCodeMessage]);
 
   if (!message) {
     return null;
