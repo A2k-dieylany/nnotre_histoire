@@ -119,7 +119,8 @@ export const coupleConfig = {
   // Easter egg EE.1 : elle tape 08062026 (chiffres uniquement, n'importe où sur
   // le site) → ce message apparaît. Code déduit de `restartDate` ci-dessus, pas
   // de `startDate` — c'est la date des retrouvailles qui sert de code, par choix.
-  secretCodeMessage: "[Écris ici le message qui apparaît quand elle trouve le code secret.]",
+  // BROUILLON — même logique que la lettre : à toi de le rendre vrai.
+  secretCodeMessage: "Ce chiffre-là, c'est le jour où on a décidé de ne plus se perdre. Tu l'as trouvé. 😏❤️",
 
   // Easter egg EE.4 : message affiché si elle visite le site entre minuit et 1h.
   midnightMessage: "Tu ne dors pas ? Moi non plus. Je pense à toi.",
