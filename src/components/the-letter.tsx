@@ -2,8 +2,14 @@
 
 import { useEffect, useRef, useState } from "react";
 import { Typewriter } from "./typewriter";
+import { FormattedText } from "./formatted-text";
 
 type Stage = "idle" | "body" | "closing" | "done";
+
+// Lettre longue -> animation longue. La rejouer en entier à CHAQUE visite (elle
+// reviendra relire la lettre pendant des années, pas juste le jour J) serait
+// pénible. Mémorisé par appareil/navigateur, pas de compte à synchroniser pour ça.
+const LETTER_SEEN_KEY = "notre-histoire:letter-seen";
 
 export function TheLetter({
   body,
@@ -18,6 +24,32 @@ export function TheLetter({
 }) {
   const [stage, setStage] = useState<Stage>("idle");
   const sectionRef = useRef<HTMLDivElement>(null);
+
+  // Déjà vue sur cet appareil : on saute directement au texte complet, pas
+  // d'animation à rejouer. Ne peut être vérifié que côté client (localStorage
+  // absent côté serveur) — d'où l'effect plutôt qu'un lazy initializer.
+  useEffect(() => {
+    let alreadySeen = false;
+    try {
+      alreadySeen = localStorage.getItem(LETTER_SEEN_KEY) === "1";
+    } catch {
+      // Navigation privée ou stockage bloqué : on retombe sur l'animation normale.
+    }
+    if (alreadySeen) {
+      // eslint-disable-next-line react-hooks/set-state-in-effect -- lu une fois au montage depuis un état navigateur, pas dérivable du rendu serveur
+      setStage("done");
+    }
+  }, []);
+
+  // Marque la lettre comme vue une fois l'animation terminée.
+  useEffect(() => {
+    if (stage !== "done") return;
+    try {
+      localStorage.setItem(LETTER_SEEN_KEY, "1");
+    } catch {
+      // Stockage indisponible : l'animation se rejouera la prochaine fois, tant pis.
+    }
+  }, [stage]);
 
   // Le texte ne commence à s'écrire que quand elle scrolle jusqu'ici — pas au
   // chargement de la page, sinon l'animation se joue hors champ pendant qu'elle
@@ -48,27 +80,35 @@ export function TheLetter({
       }}
     >
       <div className="w-full max-w-lg">
-        {stage !== "idle" && (
+        {stage === "body" && (
           <Typewriter
             text={body}
-            speedMs={25}
+            speedMs={10}
             className="whitespace-pre-line font-hand text-2xl leading-relaxed text-[#3a2e1f] sm:text-3xl"
             onDone={() => setTimeout(() => setStage("closing"), 800)}
           />
         )}
-
         {(stage === "closing" || stage === "done") && (
+          <FormattedText
+            text={body}
+            className="whitespace-pre-line font-hand text-2xl leading-relaxed text-[#3a2e1f] sm:text-3xl"
+          />
+        )}
+
+        {stage === "closing" && (
           <div className="mt-8">
-            {stage === "closing" ? (
-              <Typewriter
-                text={closing}
-                speedMs={35}
-                className="font-serif text-xl italic text-[#3a2e1f]"
-                onDone={() => setTimeout(() => setStage("done"), 600)}
-              />
-            ) : (
-              <p className="font-serif text-xl italic text-[#3a2e1f]">{closing}</p>
-            )}
+            {/* Typewriter gère text="" tout seul (onDone immédiat) : pas de cas particulier à coder ici. */}
+            <Typewriter
+              text={closing}
+              speedMs={35}
+              className="font-serif text-xl italic text-[#3a2e1f]"
+              onDone={() => setTimeout(() => setStage("done"), 600)}
+            />
+          </div>
+        )}
+        {stage === "done" && closing && (
+          <div className="mt-8">
+            <FormattedText text={closing} className="font-serif text-xl italic text-[#3a2e1f]" />
           </div>
         )}
 

@@ -1,9 +1,10 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
+import { parseBold } from "@/lib/parse-bold";
 
-// Réutilisé par l'écran d'entrée (Phase 1) et plus tard par La Lettre (2C.1) —
-// même mécanique d'apparition lettre par lettre.
+// Réutilisé par l'écran d'entrée (Phase 1) et La Lettre (2C.1) — même mécanique
+// d'apparition lettre par lettre, avec support minimal du **gras**.
 export function Typewriter({
   text,
   speedMs = 40,
@@ -15,7 +16,15 @@ export function Typewriter({
   onDone?: () => void;
   className?: string;
 }) {
-  const [shown, setShown] = useState("");
+  // Les marqueurs ** ne comptent pas comme des caractères "tapés" — on anime le
+  // texte visible (sans marqueurs), pas la syntaxe markdown.
+  const segments = useMemo(() => parseBold(text), [text]);
+  const plainLength = useMemo(
+    () => segments.reduce((sum, s) => sum + s.text.length, 0),
+    [segments],
+  );
+
+  const [revealedCount, setRevealedCount] = useState(0);
   // Lu une seule fois au montage (lazy initializer) : accéder à window.matchMedia
   // pendant le rendu lui-même n'est pas autorisé côté serveur.
   const [reducedMotion] = useState(
@@ -32,25 +41,35 @@ export function Typewriter({
   }, [onDone]);
 
   useEffect(() => {
-    if (reducedMotion || text.length === 0) {
-      // Pas de setState synchrone ici : le texte complet est rendu directement (voir ci-dessous).
+    if (reducedMotion || plainLength === 0) {
       onDoneRef.current?.();
       return;
     }
 
-    // Pas de reset explicite : `shown` démarre déjà à "" à l'initialisation du state.
     let i = 0;
     const interval = setInterval(() => {
       i += 1;
-      setShown(text.slice(0, i));
-      if (i >= text.length) {
+      setRevealedCount(i);
+      if (i >= plainLength) {
         clearInterval(interval);
         onDoneRef.current?.();
       }
     }, speedMs);
 
     return () => clearInterval(interval);
-  }, [text, speedMs, reducedMotion]);
+  }, [plainLength, speedMs, reducedMotion]);
 
-  return <p className={className}>{reducedMotion ? text : shown}</p>;
+  const budget = reducedMotion ? Infinity : revealedCount;
+  let remaining = budget;
+  const nodes: React.ReactNode[] = [];
+  for (let idx = 0; idx < segments.length && remaining > 0; idx++) {
+    const seg = segments[idx];
+    const take = Math.min(seg.text.length, remaining);
+    if (take <= 0) continue;
+    const slice = seg.text.slice(0, take);
+    nodes.push(seg.bold ? <strong key={idx}>{slice}</strong> : slice);
+    remaining -= take;
+  }
+
+  return <p className={className}>{nodes}</p>;
 }
