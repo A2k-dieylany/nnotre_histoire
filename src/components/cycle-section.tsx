@@ -1,6 +1,7 @@
 import { createClient } from "@/lib/supabase/server";
 import { getCurrentProfile } from "@/lib/profile";
 import { coupleConfig } from "@/lib/couple-config";
+import { Card } from "./card";
 import { CycleEntryRow } from "./cycle-entry-row";
 import { AddCycleEntryForm } from "./add-cycle-entry-form";
 import { CycleSharingToggle } from "./cycle-sharing-toggle";
@@ -152,10 +153,12 @@ export async function CycleSection() {
 
         <AddCycleEntryForm />
 
-        <CycleSharingToggle
-          initialEnabled={settings?.sharing_enabled ?? false}
-          authorFirstName={coupleConfig.authorFirstName}
-        />
+        <Card className="max-w-sm !p-0">
+          <CycleSharingToggle
+            initialEnabled={settings?.sharing_enabled ?? false}
+            authorFirstName={coupleConfig.authorFirstName}
+          />
+        </Card>
 
         <div className="w-full max-w-sm border-t border-white/10 pt-8">
           <h3 className="mb-4 text-center font-serif text-lg italic">Journal du jour</h3>

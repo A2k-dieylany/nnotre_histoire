@@ -1,7 +1,9 @@
+import { Bell, LogOut, Moon } from "lucide-react";
 import { getCurrentProfile } from "@/lib/profile";
 import { coupleConfig } from "@/lib/couple-config";
 import { CycleSection } from "@/components/cycle-section";
 import { Card } from "@/components/card";
+import { SettingsRow } from "@/components/settings-row";
 import { signOut } from "@/app/actions";
 
 export default async function ProfilPage() {
@@ -29,14 +31,42 @@ export default async function ProfilPage() {
         )}
       </Card>
 
-      <form action={signOut} className="w-full max-w-sm">
-        <button
-          type="submit"
-          className="w-full rounded-full border border-white/20 py-3 text-sm tracking-wide text-white/70 transition-all duration-150 active:scale-95 hover:bg-white/10 hover:text-white"
-        >
-          Se déconnecter
-        </button>
-      </form>
+      <Card className="max-w-sm !p-0 divide-y divide-white/5">
+        <SettingsRow
+          icon={Bell}
+          iconBg="bg-white/[0.06]"
+          iconColor="text-white/50"
+          title="Notifications"
+          subtitle="Bientôt disponible"
+          right={
+            <span className="shrink-0 rounded-full bg-white/[0.06] px-2.5 py-1 text-[11px] font-medium text-white/40">
+              Bientôt
+            </span>
+          }
+        />
+        <SettingsRow
+          icon={Moon}
+          iconBg="bg-white/[0.06]"
+          iconColor="text-white/50"
+          title="Thème"
+          subtitle="Notre Univers est pensé pour la nuit"
+          right={
+            <span className="shrink-0 rounded-full bg-white/[0.06] px-2.5 py-1 text-[11px] font-medium text-white/40">
+              Sombre
+            </span>
+          }
+        />
+        <form action={signOut}>
+          <button type="submit" className="w-full text-left transition-transform duration-150 active:scale-[0.98]">
+            <SettingsRow
+              icon={LogOut}
+              iconBg="bg-rose-500/10"
+              iconColor="text-rose-200"
+              title="Se déconnecter"
+            />
+          </button>
+        </form>
+      </Card>
 
       <div className="w-full border-t border-white/10 pt-4">
         <CycleSection />

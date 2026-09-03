@@ -1,7 +1,9 @@
 "use client";
 
 import { useTransition } from "react";
+import { Bell } from "lucide-react";
 import { setCycleSharing } from "@/app/cycle-actions";
+import { SettingsRow } from "./settings-row";
 
 export function CycleSharingToggle({
   initialEnabled,
@@ -21,14 +23,25 @@ export function CycleSharingToggle({
   }
 
   return (
-    <label className="flex items-center gap-2 text-sm text-white/70">
-      <input
-        type="checkbox"
-        defaultChecked={initialEnabled}
-        onChange={handleChange}
-        disabled={pending}
-      />
-      Prévenir {authorFirstName} discrètement d&apos;être attentionné ces jours-là — sans jamais lui montrer de date
-    </label>
+    <SettingsRow
+      icon={Bell}
+      iconBg="bg-rose-500/10"
+      iconColor="text-rose-200"
+      title="Prévenir discrètement"
+      subtitle={`Alerte douce à ${authorFirstName}, sans jamais montrer de date`}
+      right={
+        <label className={`relative inline-flex h-6 w-11 shrink-0 items-center ${pending ? "opacity-60" : ""}`}>
+          <input
+            type="checkbox"
+            defaultChecked={initialEnabled}
+            onChange={handleChange}
+            disabled={pending}
+            className="peer sr-only"
+          />
+          <span className="absolute inset-0 rounded-full bg-white/15 transition-colors duration-150 peer-checked:bg-rose-400/80" />
+          <span className="absolute left-0.5 h-5 w-5 rounded-full bg-white shadow transition-transform duration-150 peer-checked:translate-x-5" />
+        </label>
+      }
+    />
   );
 }
