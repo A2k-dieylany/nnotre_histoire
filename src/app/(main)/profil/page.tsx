@@ -1,6 +1,7 @@
 import { getCurrentProfile } from "@/lib/profile";
 import { coupleConfig } from "@/lib/couple-config";
 import { CycleSection } from "@/components/cycle-section";
+import { Card } from "@/components/card";
 import { signOut } from "@/app/actions";
 
 export default async function ProfilPage() {
@@ -13,10 +14,10 @@ export default async function ProfilPage() {
   });
 
   return (
-    <div className="flex min-h-screen flex-col items-center gap-10 bg-black px-6 py-24 text-white">
+    <div className="page-fade-in flex min-h-screen flex-col items-center gap-6 bg-black px-6 py-16 text-white">
       <h1 className="font-serif text-2xl italic">Profil</h1>
 
-      <div className="w-full max-w-sm rounded-2xl border border-white/10 bg-white/5 p-6">
+      <Card className="max-w-sm text-center">
         <p className="font-serif text-lg italic">
           {coupleConfig.authorFirstName} &amp; {coupleConfig.partnerFirstName}
         </p>
@@ -26,12 +27,12 @@ export default async function ProfilPage() {
             Connecté·e en tant que {profile.display_name}
           </p>
         )}
-      </div>
+      </Card>
 
       <form action={signOut} className="w-full max-w-sm">
         <button
           type="submit"
-          className="w-full rounded-full border border-white/20 py-3 text-sm tracking-wide text-white/70 transition hover:bg-white/10 hover:text-white"
+          className="w-full rounded-full border border-white/20 py-3 text-sm tracking-wide text-white/70 transition-all duration-150 active:scale-95 hover:bg-white/10 hover:text-white"
         >
           Se déconnecter
         </button>

@@ -26,11 +26,11 @@ export function BottomNav() {
             <li key={href} className="flex-1">
               <Link
                 href={href}
-                className={`flex flex-col items-center gap-1 py-3 text-[11px] tracking-wide transition ${
+                className={`flex flex-col items-center gap-1 py-3 text-[11px] tracking-wide transition-all duration-150 active:scale-90 ${
                   active ? "text-rose-200" : "text-white/40 hover:text-white/70"
                 }`}
               >
-                <Icon size={20} strokeWidth={active ? 2.25 : 1.75} />
+                <Icon size={20} strokeWidth={active ? 2.25 : 1.75} className="transition-transform" />
                 {label}
               </Link>
             </li>

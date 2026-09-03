@@ -1,5 +1,9 @@
 import { BucketList } from "@/components/bucket-list";
 
 export default function ProjetsPage() {
-  return <BucketList />;
+  return (
+    <div className="page-fade-in">
+      <BucketList />
+    </div>
+  );
 }
