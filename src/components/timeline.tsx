@@ -8,7 +8,7 @@ export async function Timeline() {
   const supabase = await createClient();
   const { data: events, error } = await supabase
     .from("timeline_events")
-    .select("id, title, body, event_date, cover_image_url")
+    .select("id, title, body, event_date, cover_image_url, secret_note")
     .order("event_date", { ascending: true });
 
   // cover_image_url contient un chemin dans le bucket privé, pas une URL utilisable

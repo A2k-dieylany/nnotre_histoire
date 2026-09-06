@@ -42,6 +42,13 @@ export function AddMemoryForm() {
         maxLength={2000}
         className="rounded-md border border-white/20 bg-transparent px-3 py-2 text-sm text-white placeholder:text-white/40 focus:border-white/50 focus:outline-none"
       />
+      <textarea
+        name="secret_note"
+        placeholder="Anecdote cachée (optionnelle) — révélée par un ✨ cliquable"
+        rows={2}
+        maxLength={1000}
+        className="rounded-md border border-white/20 bg-transparent px-3 py-2 text-sm text-white placeholder:text-white/40 focus:border-white/50 focus:outline-none"
+      />
       <input
         type="file"
         name="cover"

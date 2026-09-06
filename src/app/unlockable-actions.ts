@@ -69,7 +69,7 @@ export async function addUnlockableContent(
     return { error: "L'enregistrement a échoué. Réessaie." };
   }
 
-  revalidatePath("/");
+  revalidatePath("/moments");
   return null;
 }
 
@@ -140,7 +140,7 @@ export async function updateUnlockableContent(
     return { error: "La modification a échoué. Réessaie." };
   }
 
-  revalidatePath("/");
+  revalidatePath("/moments");
   return null;
 }
 
@@ -172,6 +172,6 @@ export async function deleteUnlockableContent(id: string): Promise<{ error: stri
 
   await deleteImage(supabase, existing?.media_url ?? null);
 
-  revalidatePath("/");
+  revalidatePath("/moments");
   return null;
 }

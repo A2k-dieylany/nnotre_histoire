@@ -23,6 +23,7 @@ export async function addTimelineEvent(
   const body = formData.get("body");
   const eventDate = formData.get("event_date");
   const cover = formData.get("cover");
+  const secretNote = formData.get("secret_note");
 
   if (typeof title !== "string" || !title.trim()) {
     return { error: "Le titre est obligatoire." };
@@ -50,13 +51,14 @@ export async function addTimelineEvent(
     body: typeof body === "string" ? body.trim() : "",
     event_date: eventDate,
     cover_image_url: coverPath,
+    secret_note: typeof secretNote === "string" && secretNote.trim() ? secretNote.trim() : null,
   });
 
   if (error) {
     return { error: "L'enregistrement a échoué. Réessaie." };
   }
 
-  revalidatePath("/");
+  revalidatePath("/moments");
   return null;
 }
 
@@ -77,6 +79,7 @@ export async function updateTimelineEvent(
   const eventDate = formData.get("event_date");
   const cover = formData.get("cover");
   const removeCover = formData.get("remove_cover") === "on";
+  const secretNote = formData.get("secret_note");
 
   if (typeof id !== "string" || !id) {
     return { error: "Souvenir introuvable." };
@@ -115,6 +118,7 @@ export async function updateTimelineEvent(
       body: typeof body === "string" ? body.trim() : "",
       event_date: eventDate,
       cover_image_url: coverPath,
+      secret_note: typeof secretNote === "string" && secretNote.trim() ? secretNote.trim() : null,
     })
     .eq("id", id);
 
@@ -122,7 +126,7 @@ export async function updateTimelineEvent(
     return { error: "La modification a échoué. Réessaie." };
   }
 
-  revalidatePath("/");
+  revalidatePath("/moments");
   return null;
 }
 
@@ -155,6 +159,6 @@ export async function deleteTimelineEvent(id: string): Promise<{ error: string }
 
   await deleteImage(supabase, existing?.cover_image_url ?? null);
 
-  revalidatePath("/");
+  revalidatePath("/moments");
   return null;
 }

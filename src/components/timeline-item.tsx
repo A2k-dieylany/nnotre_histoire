@@ -14,10 +14,12 @@ type Event = {
   event_date: string;
   cover_image_url: string | null;
   coverSignedUrl: string | null;
+  secret_note: string | null;
 };
 
 export function TimelineItem({ event }: { event: Event }) {
   const [editing, setEditing] = useState(false);
+  const [revealed, setRevealed] = useState(false);
   const [state, action, pending] = useActionState<AddEventState, FormData>(
     updateTimelineEvent,
     null,
@@ -59,6 +61,14 @@ export function TimelineItem({ event }: { event: Event }) {
             rows={3}
             maxLength={2000}
             className="rounded-md border border-white/20 bg-transparent px-3 py-2 text-sm text-white focus:border-white/50 focus:outline-none"
+          />
+          <textarea
+            name="secret_note"
+            defaultValue={event.secret_note ?? ""}
+            placeholder="Anecdote cachée (optionnelle) — révélée par un ✨ cliquable"
+            rows={2}
+            maxLength={1000}
+            className="rounded-md border border-white/20 bg-transparent px-3 py-2 text-sm text-white placeholder:text-white/40 focus:border-white/50 focus:outline-none"
           />
           {event.cover_image_url && (
             <label className="flex items-center gap-2 text-xs text-white/60">
@@ -115,6 +125,24 @@ export function TimelineItem({ event }: { event: Event }) {
         />
       )}
       {event.body && <p className="mt-1 text-sm text-white/70">{event.body}</p>}
+
+      {event.secret_note && (
+        <div className="mt-2">
+          {revealed ? (
+            <p className="font-hand text-lg text-rose-200">{event.secret_note}</p>
+          ) : (
+            <button
+              type="button"
+              onClick={() => setRevealed(true)}
+              aria-label="Révéler l'anecdote cachée"
+              className="text-lg opacity-60 transition hover:opacity-100"
+            >
+              ✨
+            </button>
+          )}
+        </div>
+      )}
+
       <div className="mt-2 flex gap-3">
         <button
           type="button"

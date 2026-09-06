@@ -44,7 +44,7 @@ export async function addCycleEntry(
     return { error: "L'enregistrement a échoué. Réessaie." };
   }
 
-  revalidatePath("/");
+  revalidatePath("/profil");
   return null;
 }
 
@@ -65,7 +65,7 @@ export async function deleteCycleEntry(id: string): Promise<{ error: string } | 
     return { error: "La suppression a échoué." };
   }
 
-  revalidatePath("/");
+  revalidatePath("/profil");
   return null;
 }
 
@@ -104,7 +104,7 @@ export async function addWellbeingEntry(
     return { error: "L'enregistrement a échoué. Réessaie." };
   }
 
-  revalidatePath("/");
+  revalidatePath("/profil");
   return null;
 }
 
@@ -125,7 +125,7 @@ export async function deleteWellbeingEntry(id: string): Promise<{ error: string 
     return { error: "La suppression a échoué." };
   }
 
-  revalidatePath("/");
+  revalidatePath("/profil");
   return null;
 }
 
@@ -150,6 +150,6 @@ export async function setCycleSharing(enabled: boolean): Promise<{ error: string
     return { error: "La mise à jour a échoué." };
   }
 
-  revalidatePath("/");
+  revalidatePath("/profil");
   return null;
 }

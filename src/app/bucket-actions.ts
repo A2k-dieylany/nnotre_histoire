@@ -29,7 +29,7 @@ export async function addBucketItem(
     return { error: "L'enregistrement a échoué. Réessaie." };
   }
 
-  revalidatePath("/");
+  revalidatePath("/projets");
   return null;
 }
 
@@ -57,7 +57,7 @@ export async function toggleBucketItem(
     });
   }
 
-  revalidatePath("/");
+  revalidatePath("/projets");
   return null;
 }
 
@@ -74,6 +74,6 @@ export async function deleteBucketItem(id: string): Promise<{ error: string } | 
     return { error: "La suppression a échoué." };
   }
 
-  revalidatePath("/");
+  revalidatePath("/projets");
   return null;
 }

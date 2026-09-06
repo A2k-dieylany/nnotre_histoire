@@ -33,7 +33,7 @@ export async function addPostit(
     return { error: "L'enregistrement a échoué. Réessaie." };
   }
 
-  revalidatePath("/");
+  revalidatePath("/moments");
   return null;
 }
 
@@ -54,7 +54,7 @@ export async function deletePostit(id: string): Promise<{ error: string } | null
     return { error: "La suppression a échoué." };
   }
 
-  revalidatePath("/");
+  revalidatePath("/moments");
   return null;
 }
 
@@ -85,6 +85,6 @@ export async function addRandomMessage(
     return { error: "L'enregistrement a échoué. Réessaie." };
   }
 
-  revalidatePath("/");
+  revalidatePath("/moments");
   return null;
 }
