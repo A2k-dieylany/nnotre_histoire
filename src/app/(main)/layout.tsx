@@ -15,6 +15,13 @@ export default async function MainLayout({ children }: { children: React.ReactNo
     redirect("/login");
   }
 
+  // EE.5 — best-effort : une ligne par jour (upsert idempotent), jamais bloquant
+  // pour la navigation si la table n'existe pas encore (migration pas exécutée).
+  await supabase.from("visits").upsert(
+    { profile_id: data.claims.sub, visit_date: new Date().toISOString().slice(0, 10) },
+    { onConflict: "profile_id,visit_date", ignoreDuplicates: true },
+  );
+
   return (
     <div className="relative min-h-screen pb-16">
       {children}

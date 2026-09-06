@@ -6,6 +6,8 @@ import { Card } from "./card";
 import { DailyQuote } from "./daily-quote";
 import { Countdown } from "./countdown";
 import { SendThoughtButton } from "./send-thought-button";
+import { OnThisDay } from "./on-this-day";
+import { MoodWeather } from "./mood-weather";
 
 const THOUGHT_FRESHNESS_MS = 24 * 60 * 60 * 1000; // au-delà, la notif n'a plus grand sens
 
@@ -51,6 +53,8 @@ export async function Dashboard() {
 
   return (
     <section className="flex flex-col items-center gap-5 bg-black px-6 pb-16 pt-4 text-white">
+      <OnThisDay />
+
       <Card className="flex flex-col items-center gap-4 text-center">
         {receivedRecently && (
           <p className="font-hand text-2xl text-rose-200">
@@ -59,6 +63,8 @@ export async function Dashboard() {
         )}
         <SendThoughtButton />
       </Card>
+
+      <MoodWeather />
 
       <Card className="flex flex-col items-center gap-2 text-center">
         <p className="text-xs uppercase tracking-widest text-white/30">Citation du jour</p>

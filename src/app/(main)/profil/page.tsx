@@ -1,5 +1,6 @@
 import { Bell, LogOut, Moon } from "lucide-react";
 import { getCurrentProfile } from "@/lib/profile";
+import { createClient } from "@/lib/supabase/server";
 import { coupleConfig } from "@/lib/couple-config";
 import { CycleSection } from "@/components/cycle-section";
 import { Card } from "@/components/card";
@@ -15,6 +16,18 @@ export default async function ProfilPage() {
     day: "numeric",
   });
 
+  // EE.5 — discret, pas un chiffre affiché avant qu'il ait du sens (1 visite
+  // le jour même serait bizarre à annoncer).
+  let visitCount: number | null = null;
+  if (profile) {
+    const supabase = await createClient();
+    const { count } = await supabase
+      .from("visits")
+      .select("id", { count: "exact", head: true })
+      .eq("profile_id", profile.id);
+    visitCount = count ?? null;
+  }
+
   return (
     <div className="page-fade-in flex min-h-screen flex-col items-center gap-6 bg-black px-6 py-16 text-white">
       <h1 className="font-serif text-2xl italic">Profil</h1>
@@ -27,6 +40,11 @@ export default async function ProfilPage() {
         {profile && (
           <p className="mt-3 text-xs uppercase tracking-widest text-white/30">
             Connecté·e en tant que {profile.display_name}
+          </p>
+        )}
+        {visitCount !== null && visitCount >= 2 && (
+          <p className="mt-2 text-xs text-white/30">
+            Tu es revenu·e {visitCount} fois sur ce site. Ça veut dire que ça t&apos;a plu. 😏
           </p>
         )}
       </Card>
