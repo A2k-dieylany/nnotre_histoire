@@ -1,4 +1,5 @@
 import { Timeline } from "@/components/timeline";
+import { GallerySection } from "@/components/gallery-section";
 import { TheLetter } from "@/components/the-letter";
 import { UnlockedMemories } from "@/components/unlocked-memories";
 import { PostitsWall } from "@/components/postits-wall";
@@ -9,6 +10,7 @@ export default function MomentsPage() {
   return (
     <div className="page-fade-in">
       <Timeline />
+      <GallerySection />
       <TheLetter
         body={coupleConfig.letterBody}
         closing={coupleConfig.letterClosing}
