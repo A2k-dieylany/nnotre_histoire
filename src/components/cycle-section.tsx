@@ -182,16 +182,22 @@ export async function CycleSection() {
     );
   }
 
-  // Compte "author" : aucun accès table, seulement ce booléen dérivé.
-  const { data: gentle } = await supabase.rpc("gentle_reminder_active");
+  // Compte "author" : aucun accès table, seulement ce compte à rebours dérivé
+  // (jamais une date). En dehors de la fenêtre [-2, 3] jours, aucun signal.
+  const { data: daysUntil } = await supabase.rpc("days_until_next_period");
 
-  if (gentle !== true) return null;
+  if (daysUntil === null || daysUntil === undefined || daysUntil > 3 || daysUntil < -2) {
+    return null;
+  }
+
+  const message =
+    daysUntil > 0
+      ? `Dans ~${daysUntil} jour${daysUntil > 1 ? "s" : ""}, pense à être encore plus attentionné avec ${coupleConfig.partnerFirstName} que d'habitude. 💛`
+      : `Sois un peu plus attentionné avec ${coupleConfig.partnerFirstName} ces prochains jours. 💛`;
 
   return (
     <section className="flex min-h-screen flex-col items-center justify-center gap-4 bg-black px-6 text-center text-white">
-      <p className="max-w-sm font-hand text-2xl text-rose-200">
-        Sois un peu plus attentionné avec {coupleConfig.partnerFirstName} ces prochains jours. 💛
-      </p>
+      <p className="max-w-sm font-hand text-2xl text-rose-200">{message}</p>
     </section>
   );
 }
