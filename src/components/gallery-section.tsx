@@ -22,17 +22,17 @@ export async function GallerySection() {
   );
 
   return (
-    <section className="flex min-h-screen flex-col items-center gap-10 bg-black px-6 py-24 text-white">
+    <section className="flex min-h-screen flex-col items-center gap-10 bg-blush px-6 py-24 text-wine">
       <h2 className="font-serif text-2xl italic">La galerie</h2>
 
       {error && (
-        <p className="text-sm text-rose-300">
+        <p className="text-sm text-rose-d">
           La galerie n&apos;a pas pu être chargée. Réessaie plus tard.
         </p>
       )}
 
       {!error && photosWithUrl.length === 0 && (
-        <p className="max-w-sm text-center text-sm text-white/50">
+        <p className="max-w-sm text-center text-sm text-muted">
           Pas encore de photo. La première trouve sa place juste en dessous.
         </p>
       )}
@@ -46,7 +46,7 @@ export async function GallerySection() {
       )}
 
       <details className="w-full max-w-md">
-        <summary className="cursor-pointer text-center text-xs uppercase tracking-widest text-white/40 hover:text-white/70">
+        <summary className="cursor-pointer text-center text-xs font-semibold uppercase tracking-widest text-muted hover:text-rose-d">
           Ajouter une photo
         </summary>
         <div className="mt-4 flex justify-center">

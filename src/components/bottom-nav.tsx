@@ -16,7 +16,7 @@ export function BottomNav() {
 
   return (
     <nav
-      className="fixed inset-x-0 bottom-0 z-40 border-t border-white/10 bg-black/80 backdrop-blur-lg"
+      className="fixed inset-x-0 bottom-0 z-40 border-t border-line bg-white/95 backdrop-blur-lg"
       style={{ paddingBottom: "env(safe-area-inset-bottom)" }}
     >
       <ul className="mx-auto flex max-w-md items-stretch justify-around">
@@ -26,8 +26,8 @@ export function BottomNav() {
             <li key={href} className="flex-1">
               <Link
                 href={href}
-                className={`flex flex-col items-center gap-1 py-3 text-[11px] tracking-wide transition-all duration-150 active:scale-90 ${
-                  active ? "text-rose-200" : "text-white/40 hover:text-white/70"
+                className={`flex flex-col items-center gap-1 py-3 text-[11px] font-medium tracking-wide transition-all duration-150 active:scale-90 ${
+                  active ? "text-rose" : "text-muted/70 hover:text-rose-d"
                 }`}
               >
                 <Icon size={20} strokeWidth={active ? 2.25 : 1.75} className="transition-transform" />

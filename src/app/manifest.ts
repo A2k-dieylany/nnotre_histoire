@@ -7,8 +7,8 @@ export default function manifest(): MetadataRoute.Manifest {
     description: "Un espace privé.",
     start_url: "/",
     display: "standalone",
-    background_color: "#000000",
-    theme_color: "#000000",
+    background_color: "#fce4e9",
+    theme_color: "#fce4e9",
     icons: [{ src: "/apple-icon", sizes: "180x180", type: "image/png" }],
   };
 }

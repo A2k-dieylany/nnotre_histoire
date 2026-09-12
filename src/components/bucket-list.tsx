@@ -13,17 +13,17 @@ export async function BucketList() {
   const done = (items ?? []).filter((i) => i.done);
 
   return (
-    <section className="flex min-h-screen flex-col items-center gap-8 bg-black px-6 py-24 text-white">
+    <section className="flex min-h-screen flex-col items-center gap-8 bg-blush px-6 py-24 text-wine">
       <h2 className="font-serif text-2xl italic">À faire ensemble</h2>
 
       {error && (
-        <p className="text-sm text-rose-300">
+        <p className="text-sm text-rose-d">
           La liste n&apos;a pas pu être chargée (la migration-005 a-t-elle été exécutée ?).
         </p>
       )}
 
       {!error && items && items.length === 0 && (
-        <p className="max-w-sm text-center text-sm text-white/50">
+        <p className="max-w-sm text-center text-sm text-muted">
           Rien pour l&apos;instant. Ajoute la première idée en dessous.
         </p>
       )}

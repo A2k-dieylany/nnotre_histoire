@@ -19,16 +19,16 @@ export function Countdown({ label, date }: { label: string; date: string }) {
   if (daysLeft === null) return null;
 
   return (
-    <p className="text-center text-sm text-white/60">
+    <p className="text-center text-sm text-muted">
       {label} —{" "}
       {daysLeft > 0 ? (
-        <span className="text-white">
+        <span className="text-wine">
           dans {daysLeft} {daysLeft === 1 ? "jour" : "jours"}
         </span>
       ) : daysLeft === 0 ? (
-        <span className="text-white">c&apos;est aujourd&apos;hui 🎉</span>
+        <span className="text-wine">c&apos;est aujourd&apos;hui 🎉</span>
       ) : (
-        <span className="text-white/40">passé</span>
+        <span className="text-muted/60">passé</span>
       )}
     </p>
   );

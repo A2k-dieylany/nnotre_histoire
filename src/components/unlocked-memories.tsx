@@ -27,7 +27,7 @@ export async function UnlockedMemories() {
   );
 
   return (
-    <section className="flex min-h-screen flex-col items-center gap-10 bg-black px-6 py-24 text-white">
+    <section className="flex min-h-screen flex-col items-center gap-10 bg-blush px-6 py-24 text-wine">
       <h2 className="font-serif text-2xl italic">Des surprises</h2>
 
       {itemsWithUrl.length > 0 && (
@@ -39,7 +39,7 @@ export async function UnlockedMemories() {
       )}
 
       <details className="w-full max-w-md">
-        <summary className="cursor-pointer text-center text-xs uppercase tracking-widest text-white/40 hover:text-white/70">
+        <summary className="cursor-pointer text-center text-xs font-semibold uppercase tracking-widest text-muted hover:text-rose-d">
           Programmer une surprise
         </summary>
         <div className="mt-4 flex justify-center">

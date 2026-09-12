@@ -63,8 +63,8 @@ export function GalleryPhoto({ photo }: { photo: Photo }) {
             />
           )}
           {photo.back_note && (
-            <div className="absolute inset-0 flex items-center justify-center rounded-lg bg-[#1a1214] p-4 text-center [backface-visibility:hidden] [transform:rotateY(180deg)]">
-              <p className="font-hand text-lg text-rose-100">{photo.back_note}</p>
+            <div className="absolute inset-0 flex items-center justify-center rounded-lg bg-wine p-4 text-center [backface-visibility:hidden] [transform:rotateY(180deg)]">
+              <p className="font-hand text-lg text-cream">{photo.back_note}</p>
             </div>
           )}
         </div>
@@ -79,13 +79,13 @@ export function GalleryPhoto({ photo }: { photo: Photo }) {
             defaultValue={photo.caption ?? ""}
             maxLength={280}
             placeholder="Légende"
-            className="rounded-md border border-white/20 bg-transparent px-2 py-1.5 text-sm text-white placeholder:text-white/40 focus:border-white/50 focus:outline-none"
+            className="rounded-md border border-line bg-white px-2 py-1.5 text-sm text-wine placeholder:text-muted/60 focus:border-rose focus:outline-none"
           />
           <input
             type="date"
             name="taken_on"
             defaultValue={photo.taken_on ?? ""}
-            className="rounded-md border border-white/20 bg-transparent px-2 py-1.5 text-sm text-white [color-scheme:dark] focus:border-white/50 focus:outline-none"
+            className="rounded-md border border-line bg-white px-2 py-1.5 text-sm text-wine [color-scheme:light] focus:border-rose focus:outline-none"
           />
           <input
             type="text"
@@ -93,21 +93,21 @@ export function GalleryPhoto({ photo }: { photo: Photo }) {
             defaultValue={photo.back_note ?? ""}
             maxLength={280}
             placeholder="Message caché (double-tap pour révéler)"
-            className="rounded-md border border-white/20 bg-transparent px-2 py-1.5 text-sm text-white placeholder:text-white/40 focus:border-white/50 focus:outline-none"
+            className="rounded-md border border-line bg-white px-2 py-1.5 text-sm text-wine placeholder:text-muted/60 focus:border-rose focus:outline-none"
           />
-          {state?.error && <p className="text-xs text-rose-300">{state.error}</p>}
+          {state?.error && <p className="text-xs text-rose-d">{state.error}</p>}
           <div className="flex gap-2">
             <button
               type="submit"
               disabled={pending}
-              className="rounded-md border border-white/30 px-3 py-1 text-xs text-white transition hover:bg-white/10 disabled:opacity-50"
+              className="rounded-full bg-rose px-3 py-1 text-xs font-semibold text-white transition active:scale-95 hover:bg-rose-d disabled:opacity-50"
             >
               {pending ? "…" : "Enregistrer"}
             </button>
             <button
               type="button"
               onClick={() => setEditing(false)}
-              className="rounded-md border border-white/10 px-3 py-1 text-xs text-white/60 transition hover:bg-white/10"
+              className="rounded-full border border-line px-3 py-1 text-xs text-muted transition hover:bg-cream-2"
             >
               Annuler
             </button>
@@ -115,13 +115,13 @@ export function GalleryPhoto({ photo }: { photo: Photo }) {
         </form>
       ) : (
         <div className="mt-2">
-          {photo.caption && <p className="font-hand text-lg text-white/80">{photo.caption}</p>}
-          {photo.taken_on && <p className="text-[11px] text-white/40">{formatDate(photo.taken_on)}</p>}
+          {photo.caption && <p className="font-hand text-lg text-wine/80">{photo.caption}</p>}
+          {photo.taken_on && <p className="text-[11px] text-muted">{formatDate(photo.taken_on)}</p>}
           <div className="mt-1 flex gap-3">
             <button
               type="button"
               onClick={() => setEditing(true)}
-              className="text-xs text-white/40 underline-offset-2 hover:text-white/70 hover:underline"
+              className="text-xs text-muted underline-offset-2 hover:text-rose-d hover:underline"
             >
               Modifier
             </button>
@@ -129,7 +129,7 @@ export function GalleryPhoto({ photo }: { photo: Photo }) {
               type="button"
               onClick={handleDelete}
               disabled={isDeleting}
-              className="text-xs text-white/40 underline-offset-2 hover:text-rose-300 hover:underline disabled:opacity-50"
+              className="text-xs text-muted underline-offset-2 hover:text-rose-d hover:underline disabled:opacity-50"
             >
               {isDeleting ? "…" : "Supprimer"}
             </button>

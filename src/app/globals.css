@@ -1,29 +1,51 @@
 @import "tailwindcss";
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --background: #fce4e9;
+  --foreground: #2a1620;
+
+  /* Palette "Nous" — reskin visuel demandé, remplace le noir/blanc-crème
+   * d'origine (voir fonctionnalites.md, Direction Artistique). Décision
+   * assumée, pas un oubli de cette section-là du brief. */
+  --color-cream: #fff7f2;
+  --color-cream-2: #fdede6;
+  --color-blush: #fce4e9;
+  --color-wine: #25101a;
+  --color-wine-2: #3a1526;
+  --color-plum: #5a1b3d;
+  --color-rose: #e8466e;
+  --color-rose-d: #c9325a;
+  --color-coral: #ff8fa3;
+  --color-gold: #e7b24c;
+  --color-ink: #2a1620;
+  --color-muted: #8c6c78;
+  --color-line: #f1dbe2;
 }
 
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
+  --color-cream: var(--color-cream);
+  --color-cream-2: var(--color-cream-2);
+  --color-blush: var(--color-blush);
+  --color-wine: var(--color-wine);
+  --color-wine-2: var(--color-wine-2);
+  --color-plum: var(--color-plum);
+  --color-rose: var(--color-rose);
+  --color-rose-d: var(--color-rose-d);
+  --color-coral: var(--color-coral);
+  --color-gold: var(--color-gold);
+  --color-ink: var(--color-ink);
+  --color-muted: var(--color-muted);
+  --color-line: var(--color-line);
   --font-sans: var(--font-inter);
-  --font-serif: var(--font-playfair);
+  --font-serif: var(--font-fraunces);
   --font-hand: var(--font-caveat);
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
 }
 
 body {
   background: var(--background);
   color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
 }
 
 @keyframes page-fade-in {

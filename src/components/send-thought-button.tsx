@@ -18,7 +18,7 @@ export function SendThoughtButton() {
       type="button"
       onClick={handleClick}
       disabled={pending}
-      className="rounded-full border border-white/30 px-6 py-3 text-sm tracking-wide text-white transition hover:bg-white/10 disabled:opacity-50"
+      className="rounded-full bg-rose px-6 py-3 text-sm font-semibold tracking-wide text-white shadow-[0_6px_16px_rgba(232,70,110,0.35)] transition active:scale-95 hover:bg-rose-d disabled:opacity-50"
     >
       {pending ? "…" : "❤️ Je pense à toi"}
     </button>

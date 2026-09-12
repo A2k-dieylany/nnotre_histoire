@@ -17,15 +17,15 @@ export function RandomMessageButton({ pool }: { pool: readonly string[] }) {
         type="button"
         onClick={reveal}
         disabled={pool.length === 0}
-        className="rounded-full border border-white/30 px-6 py-3 text-sm tracking-wide text-white transition hover:bg-white/10 disabled:opacity-40"
+        className="rounded-full bg-rose px-6 py-3 text-sm font-semibold tracking-wide text-white shadow-[0_6px_16px_rgba(232,70,110,0.35)] transition active:scale-95 hover:bg-rose-d disabled:opacity-40"
       >
         Dis-moi quelque chose de beau
       </button>
       {pool.length === 0 && (
-        <p className="text-xs text-white/40">Pas encore de message préparé.</p>
+        <p className="text-xs text-muted">Pas encore de message préparé.</p>
       )}
       {shown && (
-        <p className="max-w-sm text-center font-hand text-2xl text-white">{shown}</p>
+        <p className="max-w-sm text-center font-hand text-2xl text-wine">{shown}</p>
       )}
     </div>
   );

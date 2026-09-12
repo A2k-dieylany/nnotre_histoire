@@ -35,8 +35,8 @@ export async function Dashboard() {
   // connecté n'a pas été rattaché. On le dit clairement plutôt que de planter.
   if (!profile) {
     return (
-      <section className="flex flex-col items-center gap-4 bg-black px-6 py-16 text-center text-white">
-        <p className="max-w-sm text-sm text-white/50">
+      <section className="flex flex-col items-center gap-4 bg-blush px-6 py-16 text-center text-wine">
+        <p className="max-w-sm text-sm text-muted">
           Le tableau de bord n&apos;est pas encore actif — la migration SQL des
           profils (migration-003-profiles.sql) doit être exécutée, avec les deux
           comptes reliés.
@@ -52,12 +52,12 @@ export async function Dashboard() {
     profile.role === "author" ? coupleConfig.partnerFirstName : coupleConfig.authorFirstName;
 
   return (
-    <section className="flex flex-col items-center gap-5 bg-black px-6 pb-16 pt-4 text-white">
+    <section className="flex flex-col items-center gap-5 bg-blush px-6 pb-16 pt-4 text-wine">
       <OnThisDay />
 
       <Card className="flex flex-col items-center gap-4 text-center">
         {receivedRecently && (
-          <p className="font-hand text-2xl text-rose-200">
+          <p className="font-hand text-2xl text-rose-d">
             {otherName} pense à toi en ce moment. ❤️
           </p>
         )}
@@ -67,7 +67,7 @@ export async function Dashboard() {
       <MoodWeather />
 
       <Card className="flex flex-col items-center gap-2 text-center">
-        <p className="text-xs uppercase tracking-widest text-white/30">Citation du jour</p>
+        <p className="text-xs font-semibold uppercase tracking-widest text-rose">Citation du jour</p>
         <DailyQuote quotes={coupleConfig.dailyQuotes} />
       </Card>
 

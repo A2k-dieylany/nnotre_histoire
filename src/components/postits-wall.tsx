@@ -19,17 +19,17 @@ export async function PostitsWall() {
   const profileById = new Map((profiles ?? []).map((p) => [p.id, p]));
 
   return (
-    <section className="flex min-h-screen flex-col items-center gap-10 bg-black px-6 py-24 text-white">
+    <section className="flex min-h-screen flex-col items-center gap-10 bg-blush px-6 py-24 text-wine">
       <h2 className="font-serif text-2xl italic">Le mur</h2>
 
       {error && (
-        <p className="text-sm text-rose-300">
+        <p className="text-sm text-rose-d">
           Le mur n&apos;a pas pu être chargé (la migration-004 a-t-elle été exécutée ?).
         </p>
       )}
 
       {!error && postits && postits.length === 0 && (
-        <p className="max-w-sm text-center text-sm text-white/50">
+        <p className="max-w-sm text-center text-sm text-muted">
           Le mur est vide. Colle le premier mot en dessous.
         </p>
       )}

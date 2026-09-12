@@ -55,7 +55,7 @@ export async function OnThisDay() {
 
   return (
     <Card className="flex flex-col items-center gap-4 text-center">
-      <p className="text-xs uppercase tracking-widest text-white/30">Il y a ce jour-là</p>
+      <p className="text-xs font-semibold uppercase tracking-widest text-rose">Il y a ce jour-là</p>
 
       {eventsWithUrl.map((e) => (
         <div key={e.id} className="flex flex-col items-center gap-2">
@@ -63,7 +63,7 @@ export async function OnThisDay() {
             // eslint-disable-next-line @next/next/no-img-element -- URL signée éphémère
             <img src={e.signedUrl} alt="" className="max-h-48 w-full rounded-md object-cover" />
           )}
-          <p className="font-hand text-xl text-rose-200">
+          <p className="font-hand text-xl text-rose-d">
             Il y a {yearsAgo(e.event_date)} an{yearsAgo(e.event_date) > 1 ? "s" : ""} : {e.title}
           </p>
         </div>
@@ -75,7 +75,7 @@ export async function OnThisDay() {
             // eslint-disable-next-line @next/next/no-img-element -- URL signée éphémère
             <img src={p.signedUrl} alt="" className="max-h-48 w-full rounded-md object-cover" />
           )}
-          <p className="font-hand text-xl text-rose-200">
+          <p className="font-hand text-xl text-rose-d">
             Il y a {yearsAgo(p.taken_on as string)} an{yearsAgo(p.taken_on as string) > 1 ? "s" : ""} jour pour jour
             {p.caption ? ` : ${p.caption}` : ""}
           </p>

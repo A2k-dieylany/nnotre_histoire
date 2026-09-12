@@ -108,36 +108,36 @@ export async function CycleSection() {
     const stats = entries ? computeCycleStats(entries) : null;
 
     return (
-      <section className="flex min-h-screen flex-col items-center gap-8 bg-black px-6 py-24 text-white">
+      <section className="flex min-h-screen flex-col items-center gap-8 bg-blush px-6 py-24 text-wine">
         <h2 className="font-serif text-2xl italic">Ton suivi</h2>
-        <p className="max-w-sm text-center text-xs text-white/40">
+        <p className="max-w-sm text-center text-xs text-muted">
           Visible par toi seul·e. Rien de ceci n&apos;est accessible depuis l&apos;autre
           compte, sauf si tu actives le rappel discret ci-dessous — et même
           alors, aucune date n&apos;est jamais montrée.
         </p>
 
         {error && (
-          <p className="text-sm text-rose-300">
+          <p className="text-sm text-rose-d">
             Section indisponible (les migrations 006 et 007 ont-elles été exécutées ?).
           </p>
         )}
 
         {!error && stats && (
-          <div className="flex flex-col items-center gap-1 text-sm text-white/70">
+          <div className="flex flex-col items-center gap-1 text-sm text-wine/80">
             <p>
-              Phase actuelle : <span className="text-white">{stats.phase}</span>
+              Phase actuelle : <span className="text-wine">{stats.phase}</span>
             </p>
             <p>
               Prochaines règles estimées :{" "}
-              <span className="text-white">{formatDate(stats.predictedNext)}</span>
+              <span className="text-wine">{formatDate(stats.predictedNext)}</span>
             </p>
             <p>
               Fenêtre de fertilité estimée :{" "}
-              <span className="text-white">
+              <span className="text-wine">
                 {formatDate(stats.fertileStart)} – {formatDate(stats.fertileEnd)}
               </span>
             </p>
-            <p className="text-xs text-white/40">
+            <p className="text-xs text-muted">
               Cycle moyen : {stats.avgLength} j · Règles moyennes : {stats.avgDuration} j
             </p>
           </div>
@@ -160,7 +160,7 @@ export async function CycleSection() {
           />
         </Card>
 
-        <div className="w-full max-w-sm border-t border-white/10 pt-8">
+        <div className="w-full max-w-sm border-t border-line pt-8">
           <h3 className="mb-4 text-center font-serif text-lg italic">Journal du jour</h3>
           <WellbeingForm />
           {wellbeing && wellbeing.length > 0 && (
@@ -196,8 +196,8 @@ export async function CycleSection() {
       : `Sois un peu plus attentionné avec ${coupleConfig.partnerFirstName} ces prochains jours. 💛`;
 
   return (
-    <section className="flex min-h-screen flex-col items-center justify-center gap-4 bg-black px-6 text-center text-white">
-      <p className="max-w-sm font-hand text-2xl text-rose-200">{message}</p>
+    <section className="flex min-h-screen flex-col items-center justify-center gap-4 bg-blush px-6 text-center text-wine">
+      <p className="max-w-sm font-hand text-2xl text-rose-d">{message}</p>
     </section>
   );
 }

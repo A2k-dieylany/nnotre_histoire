@@ -26,20 +26,20 @@ export function WellbeingEntryRow({
   }
 
   return (
-    <li className="flex items-start justify-between gap-3 text-sm text-white/70">
+    <li className="flex items-start justify-between gap-3 text-sm text-wine/80">
       <div>
-        <span className="text-white/40">
+        <span className="text-muted">
           {new Date(date).toLocaleDateString("fr-FR", { month: "short", day: "numeric" })}
         </span>{" "}
         {mood && <span>{mood}</span>}
-        {symptoms && <span className="text-white/50"> · {symptoms}</span>}
-        {note && <p className="mt-0.5 text-xs text-white/40">{note}</p>}
+        {symptoms && <span className="text-muted"> · {symptoms}</span>}
+        {note && <p className="mt-0.5 text-xs text-muted">{note}</p>}
       </div>
       <button
         type="button"
         onClick={handleDelete}
         disabled={isDeleting}
-        className="shrink-0 text-xs text-white/30 underline-offset-2 hover:text-rose-300 hover:underline disabled:opacity-50"
+        className="shrink-0 text-xs text-muted/70 underline-offset-2 hover:text-rose-d hover:underline disabled:opacity-50"
       >
         {isDeleting ? "…" : "retirer"}
       </button>

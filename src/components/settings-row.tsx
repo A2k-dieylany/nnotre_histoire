@@ -21,8 +21,8 @@ export function SettingsRow({
         <Icon size={20} className={iconColor} strokeWidth={1.75} />
       </div>
       <div className="min-w-0 flex-1">
-        <p className="truncate text-[15px] font-semibold text-white">{title}</p>
-        {subtitle && <p className="truncate text-[13px] text-white/50">{subtitle}</p>}
+        <p className="truncate text-[15px] font-semibold text-wine">{title}</p>
+        {subtitle && <p className="truncate text-[13px] text-muted">{subtitle}</p>}
       </div>
       {right}
     </div>

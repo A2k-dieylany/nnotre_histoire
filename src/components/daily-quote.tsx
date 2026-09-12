@@ -24,7 +24,7 @@ export function DailyQuote({ quotes }: { quotes: readonly string[] }) {
   if (!quote) return null;
 
   return (
-    <p className="max-w-sm text-center font-hand text-xl text-white/70">
+    <p className="max-w-sm text-center font-hand text-xl text-wine/80">
       « {quote} »
     </p>
   );

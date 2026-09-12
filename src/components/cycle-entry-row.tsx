@@ -14,7 +14,7 @@ export function CycleEntryRow({ id, date }: { id: string; date: string }) {
   }
 
   return (
-    <li className="flex items-center justify-between text-sm text-white/70">
+    <li className="flex items-center justify-between text-sm text-wine/80">
       <span>
         {new Date(date).toLocaleDateString("fr-FR", {
           year: "numeric",
@@ -26,7 +26,7 @@ export function CycleEntryRow({ id, date }: { id: string; date: string }) {
         type="button"
         onClick={handleDelete}
         disabled={isDeleting}
-        className="text-xs text-white/30 underline-offset-2 hover:text-rose-300 hover:underline disabled:opacity-50"
+        className="text-xs text-muted underline-offset-2 hover:text-rose-d hover:underline disabled:opacity-50"
       >
         {isDeleting ? "…" : "retirer"}
       </button>

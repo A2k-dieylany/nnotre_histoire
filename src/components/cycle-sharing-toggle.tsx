@@ -25,8 +25,8 @@ export function CycleSharingToggle({
   return (
     <SettingsRow
       icon={Bell}
-      iconBg="bg-rose-500/10"
-      iconColor="text-rose-200"
+      iconBg="bg-rose/10"
+      iconColor="text-rose-d"
       title="Prévenir discrètement"
       subtitle={`Alerte douce à ${authorFirstName}, sans jamais montrer de date`}
       right={
@@ -38,7 +38,7 @@ export function CycleSharingToggle({
             disabled={pending}
             className="peer sr-only"
           />
-          <span className="absolute inset-0 rounded-full bg-white/15 transition-colors duration-150 peer-checked:bg-rose-400/80" />
+          <span className="absolute inset-0 rounded-full bg-line transition-colors duration-150 peer-checked:bg-rose" />
           <span className="absolute left-0.5 h-5 w-5 rounded-full bg-white shadow transition-transform duration-150 peer-checked:translate-x-5" />
         </label>
       }

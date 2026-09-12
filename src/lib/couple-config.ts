@@ -125,6 +125,11 @@ export const coupleConfig = {
   // Easter egg EE.4 : message affiché si elle visite le site entre minuit et 1h.
   midnightMessage: "Tu ne dors pas ? Moi non plus. Je pense à toi.",
 
+  // Easter egg EE.3 : une toute petite étoile ✨ quasi invisible traîne sur
+  // chaque page. 5 clics dessus → ce message. BROUILLON à personnaliser.
+  hiddenStarMessage:
+    "Je savais que tu finirais par trouver ça. 😌 Tu es la seule personne au monde assez attentive pour ça.",
+
   // Dashboard (3A.4) : une citation différente chaque jour (déduite de la date,
   // pas aléatoire à chaque rechargement). Génériques pour l'instant — remplace
   // par des phrases à vous si tu préfères, dans l'ordre que tu veux.

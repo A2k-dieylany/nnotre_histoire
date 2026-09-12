@@ -37,7 +37,7 @@ export function TimelineItem({ event }: { event: Event }) {
   if (editing) {
     return (
       <li className="relative">
-        <span className="absolute -left-[27px] top-1.5 h-2 w-2 rounded-full bg-white/60" />
+        <span className="absolute -left-[27px] top-1.5 h-2 w-2 rounded-full bg-rose" />
         <form action={action} className="flex flex-col gap-3">
           <input type="hidden" name="id" value={event.id} />
           <input
@@ -46,21 +46,21 @@ export function TimelineItem({ event }: { event: Event }) {
             defaultValue={event.title}
             required
             maxLength={120}
-            className="rounded-md border border-white/20 bg-transparent px-3 py-2 text-sm text-white focus:border-white/50 focus:outline-none"
+            className="rounded-md border border-line bg-white px-3 py-2 text-sm text-wine focus:border-rose focus:outline-none"
           />
           <input
             type="date"
             name="event_date"
             defaultValue={event.event_date}
             required
-            className="rounded-md border border-white/20 bg-transparent px-3 py-2 text-sm text-white [color-scheme:dark] focus:border-white/50 focus:outline-none"
+            className="rounded-md border border-line bg-white px-3 py-2 text-sm text-wine [color-scheme:light] focus:border-rose focus:outline-none"
           />
           <textarea
             name="body"
             defaultValue={event.body ?? ""}
             rows={3}
             maxLength={2000}
-            className="rounded-md border border-white/20 bg-transparent px-3 py-2 text-sm text-white focus:border-white/50 focus:outline-none"
+            className="rounded-md border border-line bg-white px-3 py-2 text-sm text-wine focus:border-rose focus:outline-none"
           />
           <textarea
             name="secret_note"
@@ -68,10 +68,10 @@ export function TimelineItem({ event }: { event: Event }) {
             placeholder="Anecdote cachée (optionnelle) — révélée par un ✨ cliquable"
             rows={2}
             maxLength={1000}
-            className="rounded-md border border-white/20 bg-transparent px-3 py-2 text-sm text-white placeholder:text-white/40 focus:border-white/50 focus:outline-none"
+            className="rounded-md border border-line bg-white px-3 py-2 text-sm text-wine placeholder:text-muted/60 focus:border-rose focus:outline-none"
           />
           {event.cover_image_url && (
-            <label className="flex items-center gap-2 text-xs text-white/60">
+            <label className="flex items-center gap-2 text-xs text-muted">
               <input type="checkbox" name="remove_cover" />
               Supprimer la photo actuelle
             </label>
@@ -80,21 +80,21 @@ export function TimelineItem({ event }: { event: Event }) {
             type="file"
             name="cover"
             accept="image/*"
-            className="text-xs text-white/60 file:mr-3 file:rounded-md file:border file:border-white/20 file:bg-transparent file:px-3 file:py-1.5 file:text-xs file:text-white"
+            className="text-xs text-muted file:mr-3 file:rounded-md file:border file:border-line file:bg-white file:px-3 file:py-1.5 file:text-xs file:text-wine"
           />
-          {state?.error && <p className="text-sm text-rose-300">{state.error}</p>}
+          {state?.error && <p className="text-sm text-rose-d">{state.error}</p>}
           <div className="flex gap-2">
             <button
               type="submit"
               disabled={pending}
-              className="rounded-md border border-white/30 px-4 py-2 text-xs tracking-wide text-white transition hover:bg-white/10 disabled:opacity-50"
+              className="rounded-full bg-rose px-4 py-2 text-xs font-semibold tracking-wide text-white transition active:scale-95 hover:bg-rose-d disabled:opacity-50"
             >
               {pending ? "…" : "Enregistrer"}
             </button>
             <button
               type="button"
               onClick={() => setEditing(false)}
-              className="rounded-md border border-white/10 px-4 py-2 text-xs tracking-wide text-white/60 transition hover:bg-white/10"
+              className="rounded-full border border-line px-4 py-2 text-xs tracking-wide text-muted transition hover:bg-cream-2"
             >
               Annuler
             </button>
@@ -106,8 +106,8 @@ export function TimelineItem({ event }: { event: Event }) {
 
   return (
     <li className="relative">
-      <span className="absolute -left-[27px] top-1.5 h-2 w-2 rounded-full bg-white/60" />
-      <time className="text-xs uppercase tracking-widest text-white/40">
+      <span className="absolute -left-[27px] top-1.5 h-2 w-2 rounded-full bg-rose" />
+      <time className="text-xs font-semibold uppercase tracking-widest text-rose">
         {new Date(event.event_date).toLocaleDateString("fr-FR", {
           year: "numeric",
           month: "long",
@@ -124,12 +124,12 @@ export function TimelineItem({ event }: { event: Event }) {
           className="mt-3 max-h-72 w-full rounded-md object-cover"
         />
       )}
-      {event.body && <p className="mt-1 text-sm text-white/70">{event.body}</p>}
+      {event.body && <p className="mt-1 text-sm text-wine/80">{event.body}</p>}
 
       {event.secret_note && (
         <div className="mt-2">
           {revealed ? (
-            <p className="font-hand text-lg text-rose-200">{event.secret_note}</p>
+            <p className="font-hand text-lg text-rose-d">{event.secret_note}</p>
           ) : (
             <button
               type="button"
@@ -147,7 +147,7 @@ export function TimelineItem({ event }: { event: Event }) {
         <button
           type="button"
           onClick={() => setEditing(true)}
-          className="text-xs text-white/40 underline-offset-2 hover:text-white/70 hover:underline"
+          className="text-xs text-muted underline-offset-2 hover:text-rose-d hover:underline"
         >
           Modifier
         </button>
@@ -155,7 +155,7 @@ export function TimelineItem({ event }: { event: Event }) {
           type="button"
           onClick={handleDelete}
           disabled={isDeleting}
-          className="text-xs text-white/40 underline-offset-2 hover:text-rose-300 hover:underline disabled:opacity-50"
+          className="text-xs text-muted underline-offset-2 hover:text-rose-d hover:underline disabled:opacity-50"
         >
           {isDeleting ? "…" : "Supprimer"}
         </button>

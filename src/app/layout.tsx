@@ -1,13 +1,16 @@
 import type { Metadata, Viewport } from "next";
-import { Caveat, Inter, Playfair_Display } from "next/font/google";
+import { Caveat, Inter, Fraunces } from "next/font/google";
 import "./globals.css";
 
-// Direction artistique (voir fonctionnalites.md) : Playfair pour les titres/citations,
-// Inter pour le corps de texte, Caveat pour tout ce qui doit ressembler à de l'écriture manuscrite.
-const playfair = Playfair_Display({
-  variable: "--font-playfair",
+// Reskin visuel (référence nousdeux.love) : Fraunces remplace Playfair pour
+// les titres/citations — même rôle serif, ambiance plus ronde et chaleureuse
+// que la direction "luxe discret" d'origine (voir fonctionnalites.md).
+// Inter pour le corps de texte, Caveat pour l'écriture manuscrite : inchangés.
+const fraunces = Fraunces({
+  variable: "--font-fraunces",
   subsets: ["latin"],
   style: ["normal", "italic"],
+  axes: ["opsz"],
 });
 
 const inter = Inter({
@@ -30,14 +33,14 @@ export const metadata: Metadata = {
 };
 
 export const viewport: Viewport = {
-  themeColor: "#000000",
+  themeColor: "#fce4e9",
 };
 
 export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
     <html
       lang="fr"
-      className={`${playfair.variable} ${inter.variable} ${caveat.variable} h-full antialiased`}
+      className={`${fraunces.variable} ${inter.variable} ${caveat.variable} h-full antialiased`}
     >
       <body className="min-h-full flex flex-col">{children}</body>
     </html>

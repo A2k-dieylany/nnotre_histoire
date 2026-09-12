@@ -26,23 +26,23 @@ export async function Timeline() {
   );
 
   return (
-    <section className="flex min-h-screen flex-col items-center gap-10 bg-black px-6 py-24 text-white">
+    <section className="flex min-h-screen flex-col items-center gap-10 bg-blush px-6 py-24 text-wine">
       <h2 className="font-serif text-2xl italic">Notre voyage</h2>
 
       {error && (
-        <p className="text-sm text-rose-300">
+        <p className="text-sm text-rose-d">
           Les souvenirs n&apos;ont pas pu être chargés. Réessaie plus tard.
         </p>
       )}
 
       {!error && eventsWithCoverUrl.length === 0 && (
-        <p className="max-w-sm text-center text-sm text-white/50">
+        <p className="max-w-sm text-center text-sm text-muted">
           Pas encore de souvenir ajouté. Le premier commence juste en dessous.
         </p>
       )}
 
       {!error && eventsWithCoverUrl.length > 0 && (
-        <ol className="flex w-full max-w-lg flex-col gap-8 border-l border-white/15 pl-6">
+        <ol className="flex w-full max-w-lg flex-col gap-8 border-l border-line pl-6">
           {eventsWithCoverUrl.map((event) => (
             <TimelineItem key={event.id} event={event} />
           ))}
@@ -50,7 +50,7 @@ export async function Timeline() {
       )}
 
       <details className="w-full max-w-md">
-        <summary className="cursor-pointer text-center text-xs uppercase tracking-widest text-white/40 hover:text-white/70">
+        <summary className="cursor-pointer text-center text-xs font-semibold uppercase tracking-widest text-muted hover:text-rose-d">
           Ajouter un souvenir
         </summary>
         <div className="mt-4 flex justify-center">

@@ -8,16 +8,36 @@ function dateToCode(isoDate: string) {
   return `${day}${month}${year}`;
 }
 
+const STAR_CLICKS_KEY = "hiddenStarClicks";
+const STAR_CLICKS_NEEDED = 5;
+
 export function EasterEggs({
   secretCodeDate,
   secretCodeMessage,
   midnightMessage,
+  hiddenStarMessage,
 }: {
   secretCodeDate: string;
   secretCodeMessage: string;
   midnightMessage: string;
+  hiddenStarMessage: string;
 }) {
   const [message, setMessage] = useState<string | null>(null);
+
+  // EE.3 — l'étoile cachée : persistée pour compter à travers plusieurs visites,
+  // pas seulement dans la session courante (la trouver peut prendre du temps).
+  function handleStarClick() {
+    let count = 0;
+    try {
+      count = Number(localStorage.getItem(STAR_CLICKS_KEY) ?? "0") + 1;
+      localStorage.setItem(STAR_CLICKS_KEY, String(count));
+    } catch {
+      count = STAR_CLICKS_NEEDED; // stockage indisponible (navigation privée) : ne bloque pas la surprise
+    }
+    if (count % STAR_CLICKS_NEEDED === 0) {
+      setMessage(hiddenStarMessage);
+    }
+  }
 
   // EE.4 — vérifié une seule fois à l'arrivée sur la page, pas en continu.
   // Doit rester dans un effect (pas un lazy initializer useState) : l'heure du
@@ -55,19 +75,28 @@ export function EasterEggs({
     return () => window.removeEventListener("keydown", handleKeydown);
   }, [secretCodeDate, secretCodeMessage]);
 
-  if (!message) {
-    return null;
-  }
-
   return (
-    <div
-      role="alertdialog"
-      className="fixed inset-0 z-50 flex items-center justify-center bg-black/90 px-6"
-      onClick={() => setMessage(null)}
-    >
-      <p className="max-w-sm text-center font-hand text-3xl text-white">
-        {message}
-      </p>
-    </div>
+    <>
+      <button
+        type="button"
+        onClick={handleStarClick}
+        tabIndex={-1}
+        className="fixed right-3 top-3 z-30 text-xs text-wine/10 transition hover:text-wine/30"
+      >
+        ✨
+      </button>
+
+      {message && (
+        <div
+          role="alertdialog"
+          className="fixed inset-0 z-50 flex items-center justify-center bg-wine/95 px-6"
+          onClick={() => setMessage(null)}
+        >
+          <p className="max-w-sm text-center font-hand text-3xl text-cream">
+            {message}
+          </p>
+        </div>
+      )}
+    </>
   );
 }

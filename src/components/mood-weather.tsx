@@ -24,12 +24,12 @@ export async function MoodWeather() {
 
   return (
     <Card className="flex flex-col items-center gap-4 text-center">
-      <p className="text-xs uppercase tracking-widest text-white/30">Météo émotionnelle</p>
+      <p className="text-xs font-semibold uppercase tracking-widest text-rose">Météo émotionnelle</p>
 
       {partnerMood && (
-        <p className="text-sm text-white/70">
+        <p className="text-sm text-wine/80">
           {otherName} se sent aujourd&apos;hui <span className="text-xl">{partnerMood.emoji}</span>
-          {partnerMood.note && <span className="italic text-white/50"> — {partnerMood.note}</span>}
+          {partnerMood.note && <span className="italic text-muted"> — {partnerMood.note}</span>}
         </p>
       )}
 

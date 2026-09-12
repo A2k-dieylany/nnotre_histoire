@@ -29,6 +29,7 @@ export default async function MainLayout({ children }: { children: React.ReactNo
         secretCodeDate={coupleConfig.restartDate}
         secretCodeMessage={coupleConfig.secretCodeMessage}
         midnightMessage={coupleConfig.midnightMessage}
+        hiddenStarMessage={coupleConfig.hiddenStarMessage}
       />
       <BottomNav />
     </div>
