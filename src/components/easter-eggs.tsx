@@ -11,16 +11,27 @@ function dateToCode(isoDate: string) {
 const STAR_CLICKS_KEY = "hiddenStarClicks";
 const STAR_CLICKS_NEEDED = 5;
 
+// EE.6 — au-delà de l'accélération normale de la marche/manipulation du
+// téléphone, en-deçà d'un vrai coup sur le sol (pas de faux positif au trajet).
+const SHAKE_THRESHOLD = 18;
+const SHAKE_COOLDOWN_MS = 3000;
+
+type MotionPermissionEvent = typeof DeviceMotionEvent & {
+  requestPermission?: () => Promise<"granted" | "denied">;
+};
+
 export function EasterEggs({
   secretCodeDate,
   secretCodeMessage,
   midnightMessage,
   hiddenStarMessage,
+  shakeMessages,
 }: {
   secretCodeDate: string;
   secretCodeMessage: string;
   midnightMessage: string;
   hiddenStarMessage: string;
+  shakeMessages: readonly string[];
 }) {
   const [message, setMessage] = useState<string | null>(null);
 
@@ -74,6 +85,59 @@ export function EasterEggs({
     window.addEventListener("keydown", handleKeydown);
     return () => window.removeEventListener("keydown", handleKeydown);
   }, [secretCodeDate, secretCodeMessage]);
+
+  // EE.6 — le shake secret. iOS 13+ exige une permission explicite liée à un
+  // geste utilisateur pour lire l'accéléromètre ; comme un bouton dédié
+  // casserait l'effet de surprise, on la demande discrètement au premier tap
+  // n'importe où sur la page (déjà présent partout dans l'app). Android n'a
+  // besoin d'aucune permission et écoute directement.
+  useEffect(() => {
+    if (shakeMessages.length === 0) return;
+
+    let lastShakeAt = 0;
+    let lastMagnitude = 0;
+
+    function handleMotion(e: DeviceMotionEvent) {
+      const acc = e.accelerationIncludingGravity;
+      if (!acc || acc.x === null || acc.y === null || acc.z === null) return;
+
+      const magnitude = Math.sqrt(acc.x ** 2 + acc.y ** 2 + acc.z ** 2);
+      const delta = Math.abs(magnitude - lastMagnitude);
+      lastMagnitude = magnitude;
+
+      const now = Date.now();
+      if (delta > SHAKE_THRESHOLD && now - lastShakeAt > SHAKE_COOLDOWN_MS) {
+        lastShakeAt = now;
+        const index = Math.floor(Math.random() * shakeMessages.length);
+        setMessage(shakeMessages[index]);
+      }
+    }
+
+    function armMotionListener() {
+      window.addEventListener("devicemotion", handleMotion);
+    }
+
+    const motionEvent = window.DeviceMotionEvent as MotionPermissionEvent | undefined;
+
+    if (typeof motionEvent?.requestPermission === "function") {
+      function requestOnFirstTap() {
+        motionEvent!
+          .requestPermission!()
+          .then((state) => {
+            if (state === "granted") armMotionListener();
+          })
+          .catch(() => {
+            // Permission refusée : le shake ne marchera pas sur cet appareil, tant pis.
+          });
+        document.removeEventListener("click", requestOnFirstTap);
+      }
+      document.addEventListener("click", requestOnFirstTap);
+      return () => document.removeEventListener("click", requestOnFirstTap);
+    }
+
+    armMotionListener();
+    return () => window.removeEventListener("devicemotion", handleMotion);
+  }, [shakeMessages]);
 
   return (
     <>

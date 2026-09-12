@@ -130,6 +130,15 @@ export const coupleConfig = {
   hiddenStarMessage:
     "Je savais que tu finirais par trouver ça. 😌 Tu es la seule personne au monde assez attentive pour ça.",
 
+  // Easter egg EE.6 : secoue le téléphone → un message aléatoire de cette liste.
+  // BROUILLON — à remplacer par tes propres messages, dans l'ordre que tu veux.
+  shakeMessages: [
+    "Hé. Juste hé. Je pense à toi. 🤍",
+    "Si tu lis ça, c'est que tu as secoué ton téléphone comme une folle. J'adore.",
+    "Une pensée au hasard : j'ai de la chance de t'avoir.",
+    "Ok tu peux arrêter de secouer maintenant. 😂",
+  ],
+
   // Dashboard (3A.4) : une citation différente chaque jour (déduite de la date,
   // pas aléatoire à chaque rechargement). Génériques pour l'instant — remplace
   // par des phrases à vous si tu préfères, dans l'ordre que tu veux.
